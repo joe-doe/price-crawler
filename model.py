@@ -1,6 +1,6 @@
 class Model(object):
     db = None
-    db_name = 'crawl'
+    db_name = 'price-crawler'
 
     def __init__(self, db):
         self.db = db

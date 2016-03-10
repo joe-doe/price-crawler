@@ -30,7 +30,6 @@ except IOError:
 try:
     config['uri'] = str(os.environ['mongodb_uri'])
 except KeyError:
-    print "FAILEDDDDDDDDDDDDDDDDDDDDDDDDD"
     pass
 
 
