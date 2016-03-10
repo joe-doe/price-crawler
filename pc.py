@@ -1,6 +1,7 @@
 import json
 from os import environ
 from flask import Flask
+from flask_cors import CORS
 from flask_restplus import Api
 from crawlers import ConsoleCrawler
 
@@ -32,6 +33,8 @@ except KeyError:
     pass
 
 app = Flask(__name__)
+CORS(app)
+
 api = Api(app)
 db = initialize_db(config)
 model = initialize_model(db)
