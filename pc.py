@@ -38,7 +38,7 @@ CORS(app)
 
 api = Api(app)
 db = initialize_db(config)
-model = initialize_model(db)
+model = initialize_model(config, db)
 
 initialize_routes(config, api, model)
 initialize_mongodb_feed(config, model)

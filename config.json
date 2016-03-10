@@ -1,7 +1,7 @@
 {
   "mode": "api",
   "uri": "mongodb://localhost:27017/",
-  "database": "price_crawler",
+  "database": "price-crawler",
   "all_info": {
   }
 }

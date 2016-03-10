@@ -12,9 +12,9 @@ def initialize_db(config):
     return MongoDB(config['uri'], config['database'])
 
 
-def initialize_model(db):
+def initialize_model(config, db):
     # available operations
-    return Model(db)
+    return Model(config, db)
 
 
 def initialize_routes(config, api, model):
