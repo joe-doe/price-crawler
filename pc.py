@@ -1,5 +1,5 @@
 import json
-from os import environ
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_restplus import Api
@@ -28,9 +28,11 @@ except IOError:
 
 # get sensible credentials from environment variables
 try:
-    config['uri'] = environ['mongodb_uri']
+    config['uri'] = str(os.environ['mongodb_uri'])
 except KeyError:
+    print "FAILEDDDDDDDDDDDDDDDDDDDDDDDDD"
     pass
+
 
 app = Flask(__name__)
 CORS(app)
