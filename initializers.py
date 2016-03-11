@@ -33,4 +33,5 @@ def initialize_mongodb_feed(config, model):
 
     t = threading.Thread(target=worker)
     t.setDaemon(True)
+    time.sleep(5)
     t.start()
