@@ -24,6 +24,7 @@ def initialize_routes(config, api, model):
 def initialize_mongodb_feed(config, model):
 
     def worker():
+        time.sleep(5)
         while True:
             mongo_document = JsonCrawler(config).get_prices()
 
@@ -33,5 +34,4 @@ def initialize_mongodb_feed(config, model):
 
     t = threading.Thread(target=worker)
     t.setDaemon(True)
-    time.sleep(5)
     t.start()
