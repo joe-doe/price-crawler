@@ -1,10 +1,8 @@
 aniso8601==1.1.0
-beautifulsoup4==4.4.1
 bs4==0.0.1
 Flask==0.10.1
 Flask-Cors==2.1.2
 flask-restplus==0.9.0
-foreman==0.9.7
 functools32==3.2.3.post2
 futures==3.0.5
 gunicorn==19.4.5
