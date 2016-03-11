@@ -1,13 +1,13 @@
 class Model(object):
     db = None
-    db_name = None
+    collection_name = None
 
     def __init__(self, config, db):
         self.db = db
-        self.db_name = config['database']
+        self.collection_name = config['collection']
 
     def add_record(self, record):
-        self.db.mongodb[self.db_name].insert(record)
+        self.db.mongodb[self.collection_name].insert(record)
 
     def get_all(self):
-        return self.db.mongodb[self.db_name].find()
+        return self.db.mongodb[self.collection_name].find()

@@ -29,7 +29,8 @@ def initialize_mongodb_feed(config, model):
 
             for rec in mongo_document:
                 model.add_record(rec)
-            time.sleep(14400)
+
+            time.sleep(config['sleep_interval'])
 
     t = threading.Thread(target=worker)
     t.setDaemon(True)

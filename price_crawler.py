@@ -33,7 +33,7 @@ class PriceCrawler(object):
             details = 0.0
 
         data = {
-            'name': 'plaisio',
+            'store_name': 'plaisio',
             'details': {
                 'price': details
                 }
@@ -51,7 +51,7 @@ class PriceCrawler(object):
             details = 0.0
 
         data = {
-            'name': 'media-markt',
+            'store_name': 'media-markt',
             'details': {
                 'price': details
             }
@@ -69,7 +69,7 @@ class PriceCrawler(object):
             details = 0.0
 
         data = {
-            'name': 'kotsovolos',
+            'store_name': 'kotsovolos',
             'details': {
                 'price': details
             }
@@ -89,7 +89,7 @@ class PriceCrawler(object):
             price_new = 0.0
 
         data = {
-            'name': 'eshop',
+            'store_name': 'eshop',
             'details': {
                 'old price': price_old,
                 'new price': price_new,
@@ -117,7 +117,7 @@ class PriceCrawler(object):
             averege = 0.0
 
         data = {
-            'name': 'skroutz',
+            'store_name': 'skroutz',
             'details': {
                 'cheapest': cheapest,
                 'average': averege,
@@ -142,12 +142,12 @@ class PriceCrawler(object):
 
             cheapest = prices[0]
             averege = float('{0:.2f}'.format(avg))
-        except KeyError:
+        except (KeyError, ZeroDivisionError):
             cheapest = 0.0
             averege = 0.0
 
         data = {
-            'name': 'best_price',
+            'store_name': 'best_price',
             'details': {
                 'cheapest': cheapest,
                 'average': averege,

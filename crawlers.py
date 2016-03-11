@@ -61,7 +61,7 @@ class JsonCrawler(object):
             result = pc.get_all()
             response = {
                 'timestamp': time.time(),
-                'name': item,
+                'item_name': item,
                 'info': result
             }
 
