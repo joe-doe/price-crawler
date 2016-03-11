@@ -44,8 +44,8 @@ initialize_routes(config, api, model)
 initialize_mongodb_feed(config, model)
 
 # main
-if __name__ == '__main__':
-    if config['mode'] == 'api':
-        app.run(debug=False)
-    elif config['mode'] == 'console':
-        ConsoleCrawler(config).print_prices()
+# if __name__ == '__main__':
+#     if config['mode'] == 'api':
+#         app.run(debug=False)
+#     elif config['mode'] == 'console':
+#         ConsoleCrawler(config).print_prices()
