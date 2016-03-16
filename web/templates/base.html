@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Price Crawler</title>
+
+
+</head>
+<body>
+
+    {% block content %}
+    {% endblock %}
+
+    <!--JAVSCRIPTS -->
+    <script type="text/javascript" src="{{ url_for('static', filename='node_modules/chart.js/Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='node_modules/moment/min/moment.min.js') }}"></script>
+    {% block extra_js%}
+    {% endblock %}
+</body>
+</html>

@@ -4,7 +4,8 @@ import time
 from crawlers import JsonCrawler
 from db import MongoDB
 from model import Model
-from routes_api import register_routes
+from routes_api import register_api_routes
+from routes_non_api import register_non_api_routes
 
 
 def initialize_db(config):
@@ -17,8 +18,9 @@ def initialize_model(config, db):
     return Model(config, db)
 
 
-def initialize_routes(config, api, model):
-    register_routes(config, api, model)
+def initialize_routes(config, app, api, model):
+    register_api_routes(config, api, model)
+    register_non_api_routes(config, app, model)
 
 
 def initialize_mongodb_feed(config, model):

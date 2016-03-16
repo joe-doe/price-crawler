@@ -58,11 +58,11 @@ class JsonCrawler(object):
         """
         for item in self.config['all_info'].keys():
             pc = PriceCrawler(self.config, item)
-            result = pc.get_all()
-            response = {
-                'timestamp': time.time(),
-                'item_name': item,
-                'info': result
-            }
+            for store in pc.get_stores():
+                response = {
+                    'timestamp': time.time(),
+                    'item_name': item,
+                }
 
-            yield response
+                response.update(pc.get_store_price(store))
+                yield response

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% for item in items %}
+        {{ item }}
+        <canvas id="chart_{{ item }}" width="1200" height="400"></canvas>
+    {% endfor %}
+{% endblock %}
+
+
+{% block extra_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/pc.js') }}"></script>
+{% endblock %}

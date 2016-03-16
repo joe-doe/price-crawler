@@ -11,6 +11,14 @@ class PriceCrawler(object):
     def __init__(self, config, item):
         self.config = config
         self.item = item
+        self.store_map = {
+            'skroutz': self.get_skroutz,
+            'eshop': self.get_eshop,
+            'kotsovolos': self.get_kotsovolos,
+            'media_markt': self.get_media_markt,
+            'plaisio': self.get_plaisio,
+            'best_price': self.get_best_price
+        }
 
     def get_site_soup(self, url):
         """
@@ -29,14 +37,12 @@ class PriceCrawler(object):
                                       [self.item]['plaisio'])
             price = soup.find('span', {'class': 'productPrice'})
             details = float(price.string.split()[0].replace(',', '.'))
-        except KeyError:
+        except (KeyError, AttributeError):
             details = 0.0
 
         data = {
             'store_name': 'plaisio',
-            'details': {
-                'price': details
-                }
+            'price': details
         }
         return data
 
@@ -47,14 +53,12 @@ class PriceCrawler(object):
                                  ['media-markt'])
             price = soup.find('div', {'class': 'price big'})
             details = float(price.string.replace(',', '.').replace('-', '0'))
-        except KeyError:
+        except (KeyError, AttributeError):
             details = 0.0
 
         data = {
             'store_name': 'media-markt',
-            'details': {
-                'price': details
-            }
+            'price': details
         }
         return data
 
@@ -65,14 +69,12 @@ class PriceCrawler(object):
                                  ['kotsovolos'])
             price = soup.find('p', {'class': 'price'})
             details = float(price.string.split()[0])
-        except KeyError:
+        except (KeyError, AttributeError):
             details = 0.0
 
         data = {
             'store_name': 'kotsovolos',
-            'details': {
-                'price': details
-            }
+            'price': details
         }
         return data
 
@@ -84,17 +86,15 @@ class PriceCrawler(object):
             price_old = float(price_old_raw.string.split()[0])
             price_new_raw = soup.find('span', {'class': 'web-price-value-new'})
             price_new = float(price_new_raw.string.split()[0])
-        except KeyError:
+        except (KeyError, AttributeError):
             price_old = 0.0
             price_new = 0.0
 
         data = {
             'store_name': 'eshop',
-            'details': {
-                'old price': price_old,
-                'new price': price_new,
-                'price': price_new
-            }
+            'old price': price_old,
+            'new price': price_new,
+            'price': price_new
         }
         return data
 
@@ -111,18 +111,16 @@ class PriceCrawler(object):
             avg = sum(prices) / float(len(prices))
 
             cheapest = prices[0]
-            averege = float('{0:.2f}'.format(avg))
-        except KeyError:
+            average = float('{0:.2f}'.format(avg))
+        except (KeyError, AttributeError):
             cheapest = 0.0
-            averege = 0.0
+            average = 0.0
 
         data = {
             'store_name': 'skroutz',
-            'details': {
-                'cheapest': cheapest,
-                'average': averege,
-                'price': cheapest
-            }
+            'cheapest': cheapest,
+            'average': average,
+            'price': cheapest
         }
         return data
 
@@ -141,27 +139,21 @@ class PriceCrawler(object):
             avg = sum(prices) / float(len(prices))
 
             cheapest = prices[0]
-            averege = float('{0:.2f}'.format(avg))
-        except (KeyError, ZeroDivisionError):
+            average = float('{0:.2f}'.format(avg))
+        except (KeyError, AttributeError, ZeroDivisionError):
             cheapest = 0.0
-            averege = 0.0
+            average = 0.0
 
         data = {
             'store_name': 'best_price',
-            'details': {
-                'cheapest': cheapest,
-                'average': averege,
-                'price': cheapest
-            }
+            'cheapest': cheapest,
+            'average': average,
+            'price': cheapest
         }
         return data
 
-    def get_all(self):
-        return [
-            self.get_skroutz(),
-            self.get_eshop(),
-            self.get_kotsovolos(),
-            self.get_media_markt(),
-            self.get_plaisio(),
-            self.get_best_price()
-        ]
+    def get_store_price(self, store):
+        return self.store_map[store]()
+
+    def get_stores(self):
+        return self.store_map.keys()

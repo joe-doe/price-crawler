@@ -33,19 +33,21 @@ except KeyError:
     pass
 
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder='web/static',
+            template_folder='web/templates')
 CORS(app)
 
 api = Api(app)
 db = initialize_db(config)
 model = initialize_model(config, db)
 
-initialize_routes(config, api, model)
+initialize_routes(config, app, api, model)
 initialize_mongodb_feed(config, model)
 
 # main
 if __name__ == '__main__':
     if config['mode'] == 'api':
-        app.run(debug=False, use_reloader=False)
+        app.run(debug=True)
     elif config['mode'] == 'console':
         ConsoleCrawler(config).print_prices()
