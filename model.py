@@ -1,6 +1,7 @@
 class Model(object):
     db = None
     collection_name = None
+    results_limit = 10
 
     def __init__(self, config, db):
         self.db = db
@@ -24,8 +25,11 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name].find(mongo_filter,
-                                                          mongo_projection)
+        return self.db.mongodb[self.collection_name]\
+            .find(mongo_filter, mongo_projection)\
+            .sort('timestamp')\
+            .limit(self.results_limit)
+
 
     def get_item_for_all_stores(self, item):
         mongo_filter = {
@@ -39,8 +43,10 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name].find(mongo_filter,
-                                                          mongo_projection)
+        return self.db.mongodb[self.collection_name]\
+            .find(mongo_filter, mongo_projection)\
+            .sort('timestamp')\
+            .limit(self.results_limit)
 
     def get_item_for_store(self, item, store):
         mongo_filter = {
@@ -52,8 +58,10 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name].find(mongo_filter,
-                                                          mongo_projection).limit(10)
+        return self.db.mongodb[self.collection_name]\
+            .find(mongo_filter, mongo_projection)\
+            .sort('timestamp')\
+            .limit(self.results_limit)
 
     def get_items(self):
         return self.db.mongodb[self.collection_name].distinct('item_name')
@@ -72,7 +80,9 @@ class Model(object):
         }
         return_list = list()
         mongo_response = self.db.mongodb[self.collection_name]\
-            .find(mongo_filter, mongo_projection).limit(10)
+            .find(mongo_filter, mongo_projection)\
+            .sort('timestamp')\
+            .limit(self.results_limit)
 
         for item in mongo_response:
             return_list.append(item['timestamp'])
