@@ -3,8 +3,15 @@
 {% block content %}
 
     {% for item in items %}
-        {{ item }}
-        <canvas id="chart_{{ item }}" width="1200" height="400"></canvas>
+        <div>
+            <div class="well pull-left">
+                {{ item }}
+            </div>
+            <div class="container">
+                <canvas id="chart_{{ item }}"></canvas>
+            </div>
+        </div>
+        <hr class="divider">
     {% endfor %}
 {% endblock %}
 

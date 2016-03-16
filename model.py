@@ -53,7 +53,7 @@ class Model(object):
         }
 
         return self.db.mongodb[self.collection_name].find(mongo_filter,
-                                                          mongo_projection)
+                                                          mongo_projection).limit(10)
 
     def get_items(self):
         return self.db.mongodb[self.collection_name].distinct('item_name')
@@ -72,7 +72,7 @@ class Model(object):
         }
         return_list = list()
         mongo_response = self.db.mongodb[self.collection_name]\
-            .find(mongo_filter, mongo_projection)
+            .find(mongo_filter, mongo_projection).limit(10)
 
         for item in mongo_response:
             return_list.append(item['timestamp'])

@@ -38,7 +38,7 @@ $( document ).ready(function() {
         .done(function (data) {
             for (lab in data){
                 human_date = moment(data[lab]*1000);
-                chart_labels.push(human_date.format('lll'));
+                chart_labels.push(human_date.format('LLL'));
             }
         });
 

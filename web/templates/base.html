@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Price Crawler</title>
 
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
 </head>
 <body>
-
     {% block content %}
     {% endblock %}
+
 
     <!--JAVSCRIPTS -->
     <script type="text/javascript" src="{{ url_for('static', filename='node_modules/chart.js/Chart.min.js') }}"></script>
