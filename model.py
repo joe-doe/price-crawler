@@ -1,3 +1,5 @@
+from pymongo import DESCENDING
+
 class Model(object):
     db = None
     collection_name = None
@@ -12,6 +14,12 @@ class Model(object):
 
     def get_all(self):
         return self.db.mongodb[self.collection_name].find()
+
+    def get_items(self):
+        return self.db.mongodb[self.collection_name].distinct('item_name')
+
+    def get_stores(self):
+        return self.db.mongodb[self.collection_name].distinct('store_name')
 
     def get_all_for_store(self, store):
         mongo_filter = {
@@ -28,8 +36,7 @@ class Model(object):
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort('timestamp')\
-            .limit(self.results_limit)
-
+            .limit(self.results_limit, DESCENDING)
 
     def get_item_for_all_stores(self, item):
         mongo_filter = {
@@ -46,7 +53,7 @@ class Model(object):
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort('timestamp')\
-            .limit(self.results_limit)
+            .limit(self.results_limit, DESCENDING)
 
     def get_item_for_store(self, item, store):
         mongo_filter = {
@@ -61,13 +68,7 @@ class Model(object):
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort('timestamp')\
-            .limit(self.results_limit)
-
-    def get_items(self):
-        return self.db.mongodb[self.collection_name].distinct('item_name')
-
-    def get_stores(self):
-        return self.db.mongodb[self.collection_name].distinct('store_name')
+            .limit(self.results_limit, DESCENDING)
 
     def get_timestamps_for_item(self, item):
         mongo_filter = {
@@ -82,7 +83,7 @@ class Model(object):
         mongo_response = self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort('timestamp')\
-            .limit(self.results_limit)
+            .limit(self.results_limit, DESCENDING)
 
         for item in mongo_response:
             return_list.append(item['timestamp'])
