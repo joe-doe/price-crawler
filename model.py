@@ -1,5 +1,3 @@
-from pymongo import DESCENDING
-
 class Model(object):
     db = None
     collection_name = None
@@ -35,8 +33,8 @@ class Model(object):
 
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
-            .sort('timestamp')\
-            .limit(self.results_limit, DESCENDING)
+            .sort([('timestamp', -1)])\
+            .limit(self.results_limit)
 
     def get_item_for_all_stores(self, item):
         mongo_filter = {
@@ -52,8 +50,8 @@ class Model(object):
 
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
-            .sort('timestamp')\
-            .limit(self.results_limit, DESCENDING)
+            .sort([('timestamp', -1)])\
+            .limit(self.results_limit)
 
     def get_item_for_store(self, item, store):
         mongo_filter = {
@@ -67,8 +65,8 @@ class Model(object):
 
         return self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
-            .sort('timestamp')\
-            .limit(self.results_limit, DESCENDING)
+            .sort([('timestamp', -1)])\
+            .limit(self.results_limit)
 
     def get_timestamps_for_item(self, item):
         mongo_filter = {
@@ -82,8 +80,8 @@ class Model(object):
         return_list = list()
         mongo_response = self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
-            .sort('timestamp')\
-            .limit(self.results_limit, DESCENDING)
+            .sort([('timestamp', -1)])\
+            .limit(self.results_limit)
 
         for item in mongo_response:
             return_list.append(item['timestamp'])
