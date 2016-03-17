@@ -31,10 +31,14 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name]\
+        result = self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort([('timestamp', -1)])\
             .limit(self.results_limit)
+
+        return_list = list(result)
+        return_list.reverse()
+        return return_list
 
     def get_item_for_all_stores(self, item):
         mongo_filter = {
@@ -48,10 +52,14 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name]\
+        result = self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort([('timestamp', -1)])\
             .limit(self.results_limit)
+
+        return_list = list(result)
+        return_list.reverse()
+        return return_list
 
     def get_item_for_store(self, item, store):
         mongo_filter = {
@@ -63,10 +71,14 @@ class Model(object):
             '_id': 0
         }
 
-        return self.db.mongodb[self.collection_name]\
+        result = self.db.mongodb[self.collection_name]\
             .find(mongo_filter, mongo_projection)\
             .sort([('timestamp', -1)])\
             .limit(self.results_limit)
+
+        return_list = list(result)
+        return_list.reverse()
+        return return_list
 
     def get_timestamps_for_item(self, item):
         mongo_filter = {
@@ -86,4 +98,5 @@ class Model(object):
         for item in mongo_response:
             return_list.append(item['timestamp'])
 
+        return_list.reverse()
         return return_list

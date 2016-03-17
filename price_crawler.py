@@ -145,7 +145,7 @@ class PriceCrawler(object):
             average = 0.0
 
         data = {
-            'store_name': 'best_price',
+            'store_name': 'best-price',
             'cheapest': cheapest,
             'average': average,
             'price': cheapest

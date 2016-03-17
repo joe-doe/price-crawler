@@ -78,7 +78,7 @@ $( document ).ready(function() {
                 dataset = {
                     label: stores[store],
                     datasetFill : false,
-                    fillColor : rgb+"0.1)",
+                    fillColor : rgb+"0)",
 					strokeColor : rgb+"1)",
 					pointColor : rgb+"1)",
 					pointStrokeColor : "#fff",
