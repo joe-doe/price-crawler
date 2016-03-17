@@ -4,6 +4,7 @@
   "database": "price-crawler",
   "collection": "crawler",
   "sleep_interval": 14400,
+  "keep_alive_sleep_interval": 59,
   "all_info": {
   }
 }
