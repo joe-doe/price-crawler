@@ -1,6 +1,7 @@
-import threading
-import time
+import schedule
 import requests
+import time
+import threading
 
 from crawlers import JsonCrawler
 from db import MongoDB
@@ -24,25 +25,37 @@ def initialize_routes(config, app, api, model):
     register_non_api_routes(config, app, model)
 
 
-def initialize_background_threads(config, model):
+def initialize_schedule_jobs(config, model):
 
-    def worker():
-        while True:
+    class SchedulerThread(threading.Thread):
+
+        interval = config['keep_alive_sleep_interval']
+        feed_mongo_at = ["08:00", "12:00", "17:00", "21:00"]
+
+        def __init__(self):
+            super(SchedulerThread, self).__init__()
+
+            for scheduled_time in self.feed_mongo_at:
+                schedule.every().day.at(scheduled_time).do(self.mongo_feed)
+
+            schedule.every(self.interval).seconds.do(self.keep_alive)
+
+            self.setDaemon(True)
+
+        def run(self):
+            while True:
+                schedule.run_pending()
+                time.sleep(self.interval/2)
+
+        def mongo_feed(self):
             mongo_document = JsonCrawler(config).get_prices()
 
             for rec in mongo_document:
                 model.add_record(rec)
-            time.sleep(config['sleep_interval'])
 
-    def keep_alive():
-        while True:
+        def keep_alive(self):
             requests.get('https://price-crawl.herokuapp.com/index')
-            time.sleep(config['keep_alive_sleep_interval'])
 
-    mongo_feed = threading.Thread(target=worker)
-    mongo_feed.setDaemon(True)
-    mongo_feed.start()
+    scheduler_thread = SchedulerThread()
+    scheduler_thread.start()
 
-    keep_alive = threading.Thread(target=keep_alive)
-    keep_alive.setDaemon(True)
-    keep_alive.start()

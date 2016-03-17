@@ -9,7 +9,7 @@ from initializers import (
     initialize_db,
     initialize_model,
     initialize_routes,
-    initialize_background_threads
+    initialize_schedule_jobs
 )
 
 
@@ -43,7 +43,7 @@ db = initialize_db(config)
 model = initialize_model(config, db)
 
 initialize_routes(config, app, api, model)
-initialize_background_threads(config, model)
+initialize_schedule_jobs(config, model)
 
 # main
 if __name__ == '__main__':

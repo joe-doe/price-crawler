@@ -17,6 +17,7 @@ setup(
         'Flask',
         'pymongo',
         'gunicorn',
-        'bs4'
+        'bs4',
+        'schedule'
     ]
 )
