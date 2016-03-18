@@ -57,7 +57,7 @@ def initialize_schedule_jobs(config, model):
                 model.add_record(rec)
 
         def keep_alive(self):
-            requests.get('https://price-crawl.herokuapp.com/index')
+            requests.get('https://price-crawl.herokuapp.com/get_items')
 
     scheduler_thread = SchedulerThread()
     scheduler_thread.start()
