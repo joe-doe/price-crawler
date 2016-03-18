@@ -129,7 +129,7 @@ class PriceCrawler(object):
         try:
             soup = self.get_site_soup(self.config['all_info']
                                       [self.item]
-                                      ['best_price'])
+                                      ['best-price'])
             prices = list()
             for item in soup.findAll('a',
                                      {'class': 'button tomer title no-img'}):

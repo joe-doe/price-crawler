@@ -3,7 +3,7 @@
   "uri": "mongodb://localhost:27017/",
   "database": "price-crawler",
   "collection": "crawler",
-  "keep_alive_sleep_interval": 60,
+  "keep_alive_sleep_interval": 600,
   "all_info": {
   }
 }
