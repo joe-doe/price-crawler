@@ -2,8 +2,7 @@
   "mode": "api",
   "uri": "mongodb://localhost:27017/",
   "database": "price-crawler",
-  "collection": "crawler",
-  "keep_alive_sleep_interval": 600,
-  "all_info": {
-  }
+  "data_collection": "crawler",
+  "items_collection": "items",
+  "keep_alive_sleep_interval": 600
 }

@@ -105,8 +105,12 @@ $( document ).ready(function() {
        var myChart = new Chart(domItem).Line(chart_data,{
             responsive: true,
             multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
+            legendTemplate : "<ul class=\"legend <%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li style=\"color:<%=datasets[i].strokeColor%> !important; font-size: 1em;\"><span><%=datasets[i].value%>  <%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>",
 
+//            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             });
+
+            document.getElementById('chart_legend_'+item_name).innerHTML = myChart.generateLegend();
     }
 
 function getRandomRGB() {

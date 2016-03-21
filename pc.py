@@ -42,12 +42,12 @@ api = Api(app)
 db = initialize_db(config)
 model = initialize_model(config, db)
 
-initialize_routes(config, app, api, model)
+initialize_routes(app, api, model)
 initialize_schedule_jobs(config, model)
 
 # main
 if __name__ == '__main__':
     if config['mode'] == 'api':
-        app.run(debug=True)
+        app.run(debug=False)
     elif config['mode'] == 'console':
         ConsoleCrawler(config).print_prices()

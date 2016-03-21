@@ -20,9 +20,9 @@ def initialize_model(config, db):
     return Model(config, db)
 
 
-def initialize_routes(config, app, api, model):
-    register_api_routes(config, api, model)
-    register_non_api_routes(config, app, model)
+def initialize_routes(app, api, model):
+    register_api_routes(api, model)
+    register_non_api_routes(app, model)
 
 
 def initialize_schedule_jobs(config, model):
@@ -38,8 +38,6 @@ def initialize_schedule_jobs(config, model):
             for scheduled_time in self.feed_mongo_at:
                 schedule.every().day.at(scheduled_time).do(self.mongo_feed)
 
-            schedule.every().hour.do(self.mongo_feed)
-
             schedule.every(self.interval).seconds.do(self.keep_alive)
 
             self.setDaemon(True)
@@ -51,13 +49,13 @@ def initialize_schedule_jobs(config, model):
                 time.sleep(self.interval/2)
 
         def mongo_feed(self):
-            mongo_document = JsonCrawler(config).get_prices()
+            mongo_document = JsonCrawler(config, model).get_prices()
 
             for rec in mongo_document:
                 model.add_record(rec)
 
         def keep_alive(self):
-            requests.get('https://price-crawl.herokuapp.com/get_items')
+            requests.get('https://price-crawl.herokuapp.com/ping')
 
     scheduler_thread = SchedulerThread()
     scheduler_thread.start()

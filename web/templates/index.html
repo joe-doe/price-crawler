@@ -1,17 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-
     {% for item in items %}
-        <div>
-            <div class="well pull-left">
-                {{ item }}
-            </div>
-            <div class="container">
-                <canvas id="chart_{{ item }}"></canvas>
-            </div>
-        </div>
-        <hr class="divider">
+    <h3>{{ item }}</h3>
+    <div>
+            <div class="well pull-left" id="chart_legend_{{ item }}"></div>
+
+        <canvas id="chart_{{ item }}"></canvas>
+    </div>
+    <hr class="divider">
     {% endfor %}
 {% endblock %}
 

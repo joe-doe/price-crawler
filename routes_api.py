@@ -7,7 +7,7 @@ from flask_restplus import (
 from flask import request
 
 
-def register_api_routes(config, api, model):
+def register_api_routes(api, model):
 
     class GetItems(Resource):
         def get(self):
@@ -70,9 +70,23 @@ def register_api_routes(config, api, model):
             response = model.get_timestamps_for_item(item)
             return json.loads(json_util.dumps(response))
 
+    class StoreItem(Resource):
+        request_model = api.model('request_si', {
+            'item': fields.String(description='Item name', required=True),
+            'stores': fields.String(description='Stores in JSON', required=True)
+        })
+
+        @api.doc(body=request_model)
+        def post(self):
+            data = request.get_json()
+
+            response = model.add_new_item(data)
+            return json.loads(json_util.dumps(response))
+
     api.add_resource(GetItems, '/get_items')
     api.add_resource(GetStores, '/get_stores')
     api.add_resource(GetItemForStore, '/get_item_for_store')
     api.add_resource(GetAllForStore, '/get_all_for_store')
     api.add_resource(GetItemForAllStores, '/get_item_for_all_stores')
     api.add_resource(GetTimestampsForItem, '/get_timestamps_for_item')
+    api.add_resource(StoreItem, '/store_item')

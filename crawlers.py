@@ -46,8 +46,9 @@ class JsonCrawler(object):
     Use this one to get back results in JSON format
     """
 
-    def __init__(self, config):
+    def __init__(self, config, model):
         self.config = config
+        self.model = model
 
     def get_prices(self):
         """
@@ -56,8 +57,9 @@ class JsonCrawler(object):
 
         :return: response dict every time it is called
         """
-        for item in self.config['all_info'].keys():
-            pc = PriceCrawler(self.config, item)
+
+        for item in self.model.get_items():
+            pc = PriceCrawler(self.config, self.model, item)
             for store in pc.get_stores():
                 response = {
                     'timestamp': time.time(),

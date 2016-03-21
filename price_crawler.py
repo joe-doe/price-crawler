@@ -8,9 +8,10 @@ class PriceCrawler(object):
     or use individual methods instead
     """
 
-    def __init__(self, config, item):
+    def __init__(self, config, model, item):
         self.config = config
         self.item = item
+        self.model = model
         self.store_map = {
             'skroutz': self.get_skroutz,
             'eshop': self.get_eshop,
@@ -33,8 +34,10 @@ class PriceCrawler(object):
     def get_plaisio(self):
 
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                      [self.item]['plaisio'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item, 'plaisio')
+                                      .get('url'))
+
             price = soup.find('span', {'class': 'productPrice'})
             details = float(price.string.split()[0].replace(',', '.'))
         except (KeyError, AttributeError):
@@ -48,9 +51,10 @@ class PriceCrawler(object):
 
     def get_media_markt(self):
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                 [self.item]
-                                 ['media-markt'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item,
+                                                        'media-markt')
+                                      .get('url'))
             price = soup.find('div', {'class': 'price big'})
             details = float(price.string.replace(',', '.').replace('-', '0'))
         except (KeyError, AttributeError):
@@ -64,9 +68,10 @@ class PriceCrawler(object):
 
     def get_kotsovolos(self):
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                 [self.item]
-                                 ['kotsovolos'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item,
+                                                        'kotsovolos')
+                                      .get('url'))
             price = soup.find('p', {'class': 'price'})
             details = float(price.string.split()[0])
         except (KeyError, AttributeError):
@@ -80,8 +85,10 @@ class PriceCrawler(object):
 
     def get_eshop(self):
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                      [self.item]['eshop'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item,
+                                                        'eshop')
+                                      .get('url'))
             price_old_raw = soup.find('span', {'class': 'web-price-value-old'})
             price_old = float(price_old_raw.string.split()[0])
             price_new_raw = soup.find('span', {'class': 'web-price-value-new'})
@@ -101,9 +108,10 @@ class PriceCrawler(object):
     def get_skroutz(self):
 
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                      [self.item]
-                                      ['skroutz'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item,
+                                                        'skroutz')
+                                      .get('url'))
             prices = list()
             for item in soup.findAll('a', {'class': 'price_link'}):
                 prices.append(float(item.string.split()[0].replace(',', '.')))
@@ -127,9 +135,10 @@ class PriceCrawler(object):
     def get_best_price(self):
 
         try:
-            soup = self.get_site_soup(self.config['all_info']
-                                      [self.item]
-                                      ['best-price'])
+            soup = self.get_site_soup(self.model
+                                      .get_url_for_item(self.item,
+                                                        'best-price')
+                                      .get('url'))
             prices = list()
             for item in soup.findAll('a',
                                      {'class': 'button tomer title no-img'}):
