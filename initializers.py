@@ -30,7 +30,7 @@ def initialize_schedule_jobs(config, model):
     class SchedulerThread(threading.Thread):
 
         interval = config['keep_alive_sleep_interval']
-        feed_mongo_at = ["08:00", "12:00", "17:00", "21:00"]
+        feed_mongo_at = ["06:00", "10:00", "15:00", "19:00"]
 
         def __init__(self):
             super(SchedulerThread, self).__init__()
