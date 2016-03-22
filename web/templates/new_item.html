@@ -2,18 +2,29 @@
 
 {% block content %}
 <form id="new_item">
-    <div class="input-group">
+    <div class="form-group col-xs-10">
         <label for="item_name">name</label>
         <input name="item" type="text" class="form-control" id="item_name" placeholder="item name">
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-xs-10">
         <label for="stores">stores</label>
-        <textarea name="stores" class="form-control" rows="5" id="stores"
-                placeholder='{ "store_1": "http://store_1.item_name.com", "store_2": "http://store_2.item_name.com" }'></textarea>
+        <textarea name="stores" class="form-control" rows="9" id="stores" >
+{
+"skroutz" : "url",
+"eshop" : "url",
+"kotsovolos": "url",
+"media-markt": "url",
+"plaisio": "url",
+"best-price": "url"
+}
+        </textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary pull-right">register</button>
+    <div class="col-xs-10">
+        <button type="submit" class="btn btn-primary pull-right">register</button>
+    </div>
+
 </form>
 {% endblock %}
 
