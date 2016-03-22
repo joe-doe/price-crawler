@@ -47,8 +47,10 @@ $( document ).ready(function() {
         var stores = []
 
         $.ajax({
-            type: 'GET',
-            url: 'get_stores',
+            type: 'POST',
+            url: 'get_stores_for_item',
+            data: JSON.stringify({'item': item_name}),
+            contentType: 'application/json',
             async: false
         })
         .done(function (data) {

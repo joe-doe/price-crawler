@@ -5,7 +5,7 @@ def register_non_api_routes(app, model):
 
     @app.route('/index')
     def index():
-        return render_template('index.html', items=model.get_items())
+        return render_template('index.html', items=model.get_all_items())
 
     @app.route('/new_item')
     def new_item():

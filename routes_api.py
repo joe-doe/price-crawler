@@ -9,14 +9,26 @@ from flask import request
 
 def register_api_routes(api, model):
 
-    class GetItems(Resource):
+    class GetAllItems(Resource):
         def get(self):
-            response = model.get_items()
+            response = model.get_all_items()
             return json.loads(json_util.dumps(response))
 
-    class GetStores(Resource):
+    class GetAllStores(Resource):
         def get(self):
-            response = model.get_stores()
+            response = model.get_all_stores()
+            return json.loads(json_util.dumps(response))
+
+    class GetStoresForItem(Resource):
+        request_model = api.model('request_gsfi', {
+            'item': fields.String(description='Item name', required=True)
+        })
+
+        @api.doc(body=request_model)
+        def post(self):
+            item = request.get_json()['item']
+
+            response = model.get_stores_for_item(item)
             return json.loads(json_util.dumps(response))
 
     class GetItemForStore(Resource):
@@ -83,9 +95,10 @@ def register_api_routes(api, model):
             response = model.add_new_item(data)
             return json.loads(json_util.dumps(response))
 
-    api.add_resource(GetItems, '/get_items')
-    api.add_resource(GetStores, '/get_stores')
+    api.add_resource(GetAllItems, '/get_items')
+    api.add_resource(GetAllStores, '/get_stores')
     api.add_resource(GetItemForStore, '/get_item_for_store')
+    api.add_resource(GetStoresForItem, '/get_stores_for_item')
     api.add_resource(GetAllForStore, '/get_all_for_store')
     api.add_resource(GetItemForAllStores, '/get_item_for_all_stores')
     api.add_resource(GetTimestampsForItem, '/get_timestamps_for_item')

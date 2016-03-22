@@ -58,9 +58,10 @@ class JsonCrawler(object):
         :return: response dict every time it is called
         """
 
-        for item in self.model.get_items():
-            pc = PriceCrawler(self.config, self.model, item)
-            for store in pc.get_stores():
+        for item in self.model.get_all_items():
+            for store in self.model.get_stores_for_item(item):
+                pc = PriceCrawler(self.config, self.model, item)
+
                 response = {
                     'timestamp': time.time(),
                     'item_name': item,
@@ -69,5 +70,6 @@ class JsonCrawler(object):
                 try:
                     response.update(pc.get_store_price(store))
                 except TypeError:
-                    pass  # no price for store
+                    continue  # no price for store
+
                 yield response

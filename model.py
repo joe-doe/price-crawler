@@ -23,11 +23,11 @@ class Model(object):
     def get_all(self):
         return self.db.mongodb[self.data_collection_name].find()
 
-    def get_items(self):
+    def get_all_items(self):
         return self.db.mongodb[self.items_collection_name]\
             .distinct('item_name')
 
-    def get_stores(self):
+    def get_all_stores(self):
         return self.db.mongodb[self.items_collection_name]\
             .distinct('store_name')
 
@@ -126,3 +126,22 @@ class Model(object):
 
         return self.db.mongodb[self.items_collection_name]\
             .find(mongo_filter, mongo_projection).next()
+
+    def get_stores_for_item(self, item):
+        mongo_filter = {
+            'item_name': item
+        }
+        mongo_projection = {
+            'store_name': 1,
+            '_id': 0
+        }
+
+        result = self.db.mongodb[self.items_collection_name]\
+            .find(mongo_filter, mongo_projection)
+
+        return_list = list()
+
+        for item in result:
+            return_list.append(item['store_name'])
+
+        return return_list

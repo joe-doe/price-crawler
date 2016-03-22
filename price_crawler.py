@@ -16,9 +16,9 @@ class PriceCrawler(object):
             'skroutz': self.get_skroutz,
             'eshop': self.get_eshop,
             'kotsovolos': self.get_kotsovolos,
-            'media_markt': self.get_media_markt,
+            'media-markt': self.get_media_markt,
             'plaisio': self.get_plaisio,
-            'best_price': self.get_best_price
+            'best-price': self.get_best_price
         }
 
     def get_site_soup(self, url):
@@ -164,5 +164,5 @@ class PriceCrawler(object):
     def get_store_price(self, store):
         return self.store_map[store]()
 
-    def get_stores(self):
+    def get_all_stores(self):
         return self.store_map.keys()
