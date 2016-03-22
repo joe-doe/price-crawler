@@ -66,5 +66,8 @@ class JsonCrawler(object):
                     'item_name': item,
                 }
 
-                response.update(pc.get_store_price(store))
+                try:
+                    response.update(pc.get_store_price(store))
+                except TypeError:
+                    pass  # no price for store
                 yield response

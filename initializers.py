@@ -44,6 +44,10 @@ def initialize_schedule_jobs(config, model):
 
         def run(self):
             self.mongo_feed()
+
+            if config['DEBUG']:
+                return
+
             while True:
                 schedule.run_pending()
                 time.sleep(self.interval/2)
