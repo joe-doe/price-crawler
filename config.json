@@ -5,5 +5,6 @@
   "data_collection": "crawler",
   "items_collection": "items",
   "keep_alive_sleep_interval": 600,
+  "keep_data_for": 604800,
   "DEBUG": false
 }

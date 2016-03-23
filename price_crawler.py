@@ -27,8 +27,10 @@ class PriceCrawler(object):
         :param url: The URL the bs4 will parse
         :return: BeaulifulSoup object with parsed html
         """
-        html_text = urllib2.urlopen(url).read()
-
+        try:
+            html_text = urllib2.urlopen(url).read()
+        except urllib2.HTTPError:
+            return None
         return BeautifulSoup(html_text, 'html.parser')
 
     def get_plaisio(self):

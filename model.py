@@ -1,3 +1,6 @@
+import time
+
+
 class Model(object):
     db = None
     data_collection_name = None
@@ -8,6 +11,7 @@ class Model(object):
         self.db = db
         self.data_collection_name = config['data_collection']
         self.items_collection_name = config['items_collection']
+        self.config = config
 
     def add_new_item(self, item):
         for store in item['stores']:
@@ -145,3 +149,17 @@ class Model(object):
             return_list.append(item['store_name'])
 
         return return_list
+
+    def maintenance(self):
+        now = time.time()
+        delta = self.config['keep_data_for']
+        delete_from = now - delta
+
+        mongo_filter = {
+            'timestamp': {'$lte': delete_from}
+        }
+
+        result = self.db.mongodb[self.data_collection_name]\
+            .delete_many(mongo_filter)
+
+        return "deleted {} records".format(result)

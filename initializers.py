@@ -38,13 +38,12 @@ def initialize_schedule_jobs(config, model):
             for scheduled_time in self.feed_mongo_at:
                 schedule.every().day.at(scheduled_time).do(self.mongo_feed)
 
+            schedule.every().day.at("02:00").do(self.maintenance)
             schedule.every(self.interval).seconds.do(self.keep_alive)
 
             self.setDaemon(True)
 
         def run(self):
-            self.mongo_feed()
-
             if config['DEBUG']:
                 return
 
@@ -60,6 +59,9 @@ def initialize_schedule_jobs(config, model):
 
         def keep_alive(self):
             requests.get('https://price-crawl.herokuapp.com/ping')
+
+        def maintenance(self):
+            print model.maintenance()
 
     scheduler_thread = SchedulerThread()
     scheduler_thread.start()
