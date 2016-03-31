@@ -4,7 +4,7 @@
   "database": "price-crawler",
   "data_collection": "crawler",
   "items_collection": "items",
-  "specs_collection": "items",
+  "specs_collection": "specs",
   "keep_alive_sleep_interval": 600,
   "keep_data_for": 604800,
   "DEBUG": false

@@ -45,6 +45,7 @@ def initialize_schedule_jobs(config, model):
 
         def run(self):
             if config['DEBUG']:
+                self.mongo_feed()
                 return
 
             while True:

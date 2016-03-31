@@ -38,7 +38,7 @@ class Model(object):
                 'item_name': item['item_name'],
             }
             rec.update(store)
-            self.db.mongodb['items'].insert(rec)
+            self.db.mongodb[self.items_collection_name].insert(rec)
 
             if store['store_name'] == 'skroutz':
                 skroutz_site_url = store['url']
@@ -46,13 +46,26 @@ class Model(object):
                     'item_name': item['item_name'],
                     'specs': get_specs(skroutz_site_url)
                 }
-                self.db.mongodb['specs'].insert(specs)
+                self.db.mongodb[self.specs_collection_name].insert(specs)
 
             # specs = {
             #     'item_name': item['item_name'],
             #     'specs': get_specs('http://www.gsmarena.com/microsoft_lumia_950-7262.php')
             # }
             # self.db.mongodb['specs'].insert(specs)
+
+            from price_crawler import PriceCrawler
+            pc = PriceCrawler(self.config, self, item['item_name'])
+            rec = {
+                'timestamp': time.time(),
+                'item_name': item['item_name'],
+            }
+
+            try:
+                rec.update(pc.get_store_price(store['store_name']))
+                self.add_record(rec)
+            except TypeError:
+                pass  # no price for store
 
     def add_record(self, record):
         self.db.mongodb[self.data_collection_name].insert(record)
