@@ -115,14 +115,14 @@ class PriceCrawler(object):
                                                         'skroutz')
                                       .get('url'))
             prices = list()
-            for item in soup.findAll('a', {'class': 'price_link'}):
+            for item in soup.findAll('a', {'class': 'product-link'}):
                 prices.append(float(item.string.split()[0].replace(',', '.')))
 
             avg = sum(prices) / float(len(prices))
 
             cheapest = prices[0]
             average = float('{0:.2f}'.format(avg))
-        except (KeyError, AttributeError):
+        except (KeyError, AttributeError, ZeroDivisionError):
             cheapest = 0.0
             average = 0.0
 

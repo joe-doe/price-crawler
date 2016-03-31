@@ -95,6 +95,18 @@ def register_api_routes(api, model):
             response = model.add_new_item(data)
             return json.loads(json_util.dumps(response))
 
+    class GetSpecsForItem(Resource):
+        request_model = api.model('request_gspfi', {
+            'item': fields.String(description='Item name', required=True)
+        })
+
+        @api.doc(body=request_model)
+        def post(self):
+            item = request.get_json()['item']
+
+            response = model.get_specs(item)
+            return response
+
     api.add_resource(GetAllItems, '/get_items')
     api.add_resource(GetAllStores, '/get_stores')
     api.add_resource(GetItemForStore, '/get_item_for_store')
@@ -103,3 +115,4 @@ def register_api_routes(api, model):
     api.add_resource(GetItemForAllStores, '/get_item_for_all_stores')
     api.add_resource(GetTimestampsForItem, '/get_timestamps_for_item')
     api.add_resource(StoreItem, '/store_item')
+    api.add_resource(GetSpecsForItem, '/get_specs_for_item')

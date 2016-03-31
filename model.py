@@ -1,4 +1,23 @@
 import time
+import urllib2
+
+from bs4 import BeautifulSoup
+
+
+def get_specs(url):
+        try:
+            html_text = urllib2.urlopen(url).read()
+        except urllib2.HTTPError:
+            return "Specs not available"
+
+        soup = BeautifulSoup(html_text, 'html.parser')
+        # specs = soup.find_all('div', {'id': 'specs-list'})
+        specs = soup.find_all('div', {'class': 'spec-details'})
+
+        a = list()
+        [a.append(spec.encode('utf-8')) for spec in specs]
+
+        return ' '.join(a)
 
 
 class Model(object):
@@ -20,6 +39,20 @@ class Model(object):
             }
             rec.update(store)
             self.db.mongodb['items'].insert(rec)
+
+            if store['store_name'] == 'skroutz':
+                skroutz_site_url = store['url']
+                specs = {
+                    'item_name': item['item_name'],
+                    'specs': get_specs(skroutz_site_url)
+                }
+                self.db.mongodb['specs'].insert(specs)
+
+            # specs = {
+            #     'item_name': item['item_name'],
+            #     'specs': get_specs('http://www.gsmarena.com/microsoft_lumia_950-7262.php')
+            # }
+            # self.db.mongodb['specs'].insert(specs)
 
     def add_record(self, record):
         self.db.mongodb[self.data_collection_name].insert(record)
@@ -163,3 +196,20 @@ class Model(object):
             .delete_many(mongo_filter)
 
         return "deleted {} records".format(result)
+
+    def get_specs(self, item):
+        mongo_filter = {
+            'item_name': item,
+        }
+        mongo_projection = {
+            'specs': 1,
+            '_id': 0
+        }
+
+        try:
+            res = self.db.mongodb['specs'].find(mongo_filter,
+                                                mongo_projection).next()
+
+            return res['specs']
+        except Exception:
+            return "Specs not available"

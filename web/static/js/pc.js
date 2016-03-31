@@ -7,7 +7,7 @@ $( document ).ready(function() {
         async: false
         })
         .done(function (data){
-        items = data;
+            items = data;
         });
 
     var stores = []
@@ -17,13 +17,24 @@ $( document ).ready(function() {
         async: false
         })
         .done(function (data){
-        stores = data;
+            stores = data;
         });
+
 
 
     for (var item in items) {
         var item_name = items[item];
 
+        $.ajax({
+           type: 'POST',
+           url: 'get_specs_for_item',
+           data: JSON.stringify({'item': item_name}),
+           contentType: 'application/json',
+           async: false
+        })
+        .done(function (res) {
+            document.getElementById('chart_specs_'+item_name).innerHTML = res;
+        });
 
         // chart labels
         var chart_labels = [];
