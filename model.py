@@ -11,13 +11,12 @@ def get_specs(url):
             return "Specs not available"
 
         soup = BeautifulSoup(html_text, 'html.parser')
-        # specs = soup.find_all('div', {'id': 'specs-list'})
         specs = soup.find_all('div', {'class': 'spec-details'})
 
-        a = list()
-        [a.append(spec.encode('utf-8')) for spec in specs]
+        all_specs = list()
+        [all_specs.append(spec.encode('utf-8')) for spec in specs]
 
-        return ' '.join(a)
+        return ' '.join(all_specs)
 
 
 class Model(object):
@@ -30,6 +29,7 @@ class Model(object):
         self.db = db
         self.data_collection_name = config['data_collection']
         self.items_collection_name = config['items_collection']
+        self.specs_collection_name = config['specs_collection']
         self.config = config
 
     def add_new_item(self, item):
@@ -207,8 +207,8 @@ class Model(object):
         }
 
         try:
-            res = self.db.mongodb['specs'].find(mongo_filter,
-                                                mongo_projection).next()
+            res = self.db.mongodb[self.specs_collection_name]\
+                .find(mongo_filter, mongo_projection).next()
 
             return res['specs']
         except Exception:
