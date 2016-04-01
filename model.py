@@ -28,8 +28,13 @@ def get_quick_specs(url):
     soup = BeautifulSoup(html_text, 'html.parser')
     quick_specs = soup.find('p', {'class': 'specs'})
 
+    # replace a tag with b make it bold
+    bold = soup.new_tag('b')
+    bold.string = quick_specs.a.text
+    quick_specs.a.insert_before(bold)
+
     # remove a tags
-    quick_specs.a.unwrap()
+    quick_specs.a.extract()
 
     return str(quick_specs)
 
