@@ -56,10 +56,19 @@ dd tt {
 
 .my_legend {
     position: absolute;
-    left: 85%;
-    top: 20%;
+    right: 0%;
+    bottom: 50%;
 }
 
 .transparent {
     background: rgba(255,255,255,0.5);
+}
+
+.ddd {
+    position: relative;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0px;
 }
