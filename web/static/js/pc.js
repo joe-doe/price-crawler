@@ -47,6 +47,18 @@ $( document ).ready(function() {
             document.getElementById('chart_quick_specs_'+item_name).innerHTML = res;
         });
 
+        $.ajax({
+           type: 'POST',
+           url: 'get_image_for_item',
+           data: JSON.stringify({'item': item_name}),
+           contentType: 'application/json',
+           async: false
+        })
+        .done(function (res) {
+            $('#chart_image_'+item_name).attr('src', res);
+            $('#chart_image_'+item_name).attr('width', '250px');
+        });
+
         // chart labels
         var chart_labels = [];
 

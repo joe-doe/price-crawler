@@ -39,6 +39,20 @@ def get_quick_specs(url):
     return str(quick_specs)
 
 
+def get_image_for_item(url):
+    try:
+        html_text = urllib2.urlopen(url).read()
+    except urllib2.HTTPError:
+        return "image not available"
+
+    soup = BeautifulSoup(html_text, 'html.parser')
+    image = soup.find('a', {'class': 'sku-image'})
+
+    a = image['href']
+
+    return 'http:'+a
+
+
 class Model(object):
     db = None
     data_collection_name = None
@@ -65,7 +79,8 @@ class Model(object):
                 specs = {
                     'item_name': item['item_name'],
                     'specs': get_specs(skroutz_site_url),
-                    'quick_specs': get_quick_specs(skroutz_site_url)
+                    'quick_specs': get_quick_specs(skroutz_site_url),
+                    'image': get_image_for_item(skroutz_site_url)
                 }
                 self.db.mongodb[self.specs_collection_name].insert(specs)
 
@@ -262,5 +277,22 @@ class Model(object):
                 .find(mongo_filter, mongo_projection).next()
 
             return res['quick_specs']
+        except Exception:
+            return "quick specs not available"
+
+    def get_image(self, item):
+        mongo_filter = {
+            'item_name': item,
+        }
+        mongo_projection = {
+            'image': 1,
+            '_id': 0
+        }
+
+        try:
+            res = self.db.mongodb[self.specs_collection_name]\
+                .find(mongo_filter, mongo_projection).next()
+
+            return res['image']
         except Exception:
             return "quick specs not available"
