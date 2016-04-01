@@ -64,11 +64,11 @@ dd tt {
     background: rgba(255,255,255,0.5);
 }
 
-.ddd {
+.relative-position {
     position: relative;
 }
 
-.bottom {
+.set-to-bottom {
     position: absolute;
     bottom: 0px;
 }

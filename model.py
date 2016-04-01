@@ -8,7 +8,7 @@ def get_specs(url):
         try:
             html_text = urllib2.urlopen(url).read()
         except urllib2.HTTPError:
-            return "Specs not available"
+            return "specs not available"
 
         soup = BeautifulSoup(html_text, 'html.parser')
         specs = soup.find_all('div', {'class': 'spec-details'})
@@ -17,6 +17,21 @@ def get_specs(url):
         [all_specs.append(spec.encode('utf-8')) for spec in specs]
 
         return ' '.join(all_specs)
+
+
+def get_quick_specs(url):
+    try:
+        html_text = urllib2.urlopen(url).read()
+    except urllib2.HTTPError:
+        return "quick specs not available"
+
+    soup = BeautifulSoup(html_text, 'html.parser')
+    quick_specs = soup.find('p', {'class': 'specs'})
+
+    # remove a tags
+    quick_specs.a.unwrap()
+
+    return str(quick_specs)
 
 
 class Model(object):
@@ -44,7 +59,8 @@ class Model(object):
                 skroutz_site_url = store['url']
                 specs = {
                     'item_name': item['item_name'],
-                    'specs': get_specs(skroutz_site_url)
+                    'specs': get_specs(skroutz_site_url),
+                    'quick_specs': get_quick_specs(skroutz_site_url)
                 }
                 self.db.mongodb[self.specs_collection_name].insert(specs)
 
@@ -225,4 +241,21 @@ class Model(object):
 
             return res['specs']
         except Exception:
-            return "Specs not available"
+            return "specs not available"
+
+    def get_quick_specs(self, item):
+        mongo_filter = {
+            'item_name': item,
+        }
+        mongo_projection = {
+            'quick_specs': 1,
+            '_id': 0
+        }
+
+        try:
+            res = self.db.mongodb[self.specs_collection_name]\
+                .find(mongo_filter, mongo_projection).next()
+
+            return res['quick_specs']
+        except Exception:
+            return "quick specs not available"
