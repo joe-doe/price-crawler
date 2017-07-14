@@ -56,7 +56,7 @@ $( document ).ready(function() {
         })
         .done(function (res) {
             $('#chart_image_'+item_name).attr('src', res);
-            $('#chart_image_'+item_name).attr('width', '250px');
+            $('#chart_image_'+item_name).attr('width', '200px');
         });
 
         // chart labels

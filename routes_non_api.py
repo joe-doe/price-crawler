@@ -22,3 +22,8 @@ def register_non_api_routes(app, model):
     @app.route('/about')
     def about():
         return render_template('about.html')
+
+    @app.route('/play')
+    def play():
+        return render_template('play.html')
+
