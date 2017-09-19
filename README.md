@@ -1,4 +1,10 @@
 # price-crawler
 
-Application URL
-https://price-crawl.herokuapp.com/index
+Feed application with item urls and watch the price graph. Available sites are
+
+* skroutz
+* eshop
+* kotsovolos
+* media-markt
+* plaisio
+* best-price
